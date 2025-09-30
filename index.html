@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Feliz Cumpleaños! - Doctora Juguetes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #ffcce6 0%, #ffb3d9 25%, #c6e2ff 50%, #a3d0ff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .floating-bears {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-bear {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0;
+            animation: floatBear 15s linear infinite;
+        }
+
+        @keyframes floatBear {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            max-width: 900px;
+            width: 100%;
+            z-index: 10;
+            position: relative;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .header h1 {
+            color: #ff6b9d;
+            font-size: 42px;
+            text-shadow: 3px 3px 0 #fff, 5px 5px 0 rgba(255, 107, 157, 0.3);
+            margin-bottom: 10px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .header p {
+            color: #5d9bff;
+            font-size: 22px;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 #fff;
+            margin-bottom: 5px;
+        }
+
+        .image-container {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25), 0 0 0 8px #ff8fab, 0 0 0 12px white, 0 0 0 16px #5d9bff;
+            transition: all 0.4s ease;
+            z-index: 10;
+        }
+
+        .image-container:hover {
+            transform: scale(1.05) rotate(2deg);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 8px #ff8fab, 0 0 0 12px white, 0 0 0 16px #5d9bff;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .open-button {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(to right, #ff6b9d, #ff8fab);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(255, 107, 157, 0.5);
+            transition: all 0.3s ease;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .open-button:hover {
+            background: linear-gradient(to right, #ff8fab, #ff6b9d);
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 10px 25px rgba(255, 107, 157, 0.7);
+        }
+
+        .birthday-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0) rotate(-10deg);
+            width: 85%;
+            max-width: 650px;
+            background: linear-gradient(135deg, #ffd1dc 0%, #ffe6ee 50%, #fff0f5 100%);
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4), 0 0 0 12px #ff8fab, 0 0 0 16px white, 0 0 0 20px #5d9bff;
+            text-align: center;
+            z-index: 100;
+            transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.5);
+            overflow: hidden;
+        }
+
+        .birthday-card.active {
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+        }
+
+        .birthday-card::before {
+            content: "";
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+            background: linear-gradient(45deg, #ff6b9d, #ff8fab, #ffcce6, #ff8fab, #ff6b9d);
+            z-index: -1;
+            border-radius: 35px;
+            animation: borderGlow 4s linear infinite;
+            background-size: 400% 400%;
+            filter: blur(8px);
+            opacity: 0.7;
+        }
+
+        @keyframes borderGlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .card-header {
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .card-header h1 {
+            color: #ff6b9d;
+            font-size: 28px;
+            text-shadow: 2px 2px 0 #fff, 4px 4px 0 rgba(255, 107, 157, 0.3);
+            margin-bottom: 6px;
+        }
+
+        .card-header h2 {
+            color: #5d9bff;
+            font-size: 20px;
+            text-shadow: 1px 1px 0 #fff;
+            margin-bottom: 3px;
+        }
+
+        .card-content {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin: 15px 0;
+            color: #555;
+            font-size: 16px;
+            line-height: 1.4;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 18px;
+            border-radius: 18px;
+            border: 3px dashed #ff8fab;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 5;
+        }
+
+        .doctora-image {
+            flex-shrink: 0;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #ff8fab;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .doctora-image:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .doctora-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .message {
+            flex: 1;
+        }
+
+        .message p {
+            margin-bottom: 8px;
+        }
+
+        .close-button {
+            background: linear-gradient(to right, #5d9bff, #7ab3ff);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 12px;
+            box-shadow: 0 6px 15px rgba(93, 155, 255, 0.5);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .close-button:hover {
+            background: linear-gradient(to right, #7ab3ff, #5d9bff);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(93, 155, 255, 0.7);
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 50;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: #ff6b9d;
+            animation: confettiFall linear infinite;
+            z-index: 2;
+            user-select: none;
+            pointer-events: none;
+            border-radius: 50%;
+        }
+
+        @keyframes confettiFall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        .signature {
+            margin-top: 10px;
+            font-style: italic;
+            color: #5d9bff;
+            font-weight: bold;
+            text-align: right;
+            font-size: 16px;
+            text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.7);
+        }
+
+        .sticker {
+            position: absolute;
+            font-size: 30px;
+            z-index: 5;
+            animation: wiggle 3s infinite;
+        }
+
+        .sticker-1 {
+            top: 6px;
+            left: 6px;
+            color: #ff6b9d;
+        }
+
+        .sticker-2 {
+            top: 6px;
+            right: 6px;
+            color: #5d9bff;
+        }
+
+        .sticker-3 {
+            bottom: 6px;
+            left: 6px;
+            color: #ffd166;
+        }
+
+        .sticker-4 {
+            bottom: 6px;
+            right: 6px;
+            color: #06d6a0;
+        }
+
+        @keyframes wiggle {
+            0%, 100% {
+                transform: rotate(-5deg);
+            }
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .balloon {
+            position: fixed;
+            width: 50px;
+            height: 70px;
+            border-radius: 50%;
+            animation: floatBalloon 20s infinite ease-in-out;
+            z-index: 1;
+            opacity: 0;
+        }
+
+        .balloon:before {
+            content: "";
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 35px;
+            background-color: rgba(255, 255, 255, 0.7);
+        }
+
+        .balloon-1 {
+            background: radial-gradient(circle at 30% 30%, #ff6b9d, #ff3b7d);
+            left: 10%;
+            animation-delay: 0.5s;
+        }
+
+        .balloon-2 {
+            background: radial-gradient(circle at 30% 30%, #5d9bff, #3b7dff);
+            left: 25%;
+            animation-delay: 2s;
+        }
+
+        .balloon-3 {
+            background: radial-gradient(circle at 30% 30%, #ffd166, #ffb700);
+            left: 40%;
+            animation-delay: 4s;
+        }
+
+        .balloon-4 {
+            background: radial-gradient(circle at 30% 30%, #06d6a0, #00b383);
+            left: 55%;
+            animation-delay: 1s;
+        }
+
+        .balloon-5 {
+            background: radial-gradient(circle at 30% 30%, #c77dff, #9d4edd);
+            left: 70%;
+            animation-delay: 3s;
+        }
+
+        .balloon-6 {
+            background: radial-gradient(circle at 30% 30%, #ff9e6d, #ff7a3d);
+            left: 85%;
+            animation-delay: 5s;
+        }
+
+        @keyframes floatBalloon {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            50% {
+                transform: translateY(-100px) rotate(180deg);
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-150vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .card-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .doctora-image {
+                width: 110px;
+                height: 110px;
+            }
+            
+            .birthday-card {
+                width: 90%;
+                padding: 18px;
+            }
+            
+            .card-header h1 {
+                font-size: 24px;
+            }
+            
+            .card-header h2 {
+                font-size: 18px;
+            }
+            
+            .card-content {
+                font-size: 15px;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 36px;
+            }
+            
+            .header p {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .image-container {
+                width: 280px;
+                height: 280px;
+            }
+            
+            .birthday-card {
+                padding: 15px;
+                width: 95%;
+            }
+            
+            .card-header h1 {
+                font-size: 22px;
+            }
+            
+            .card-header h2 {
+                font-size: 16px;
+            }
+            
+            .card-content {
+                font-size: 14px;
+                padding: 12px;
+            }
+            
+            .doctora-image {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .header h1 {
+                font-size: 32px;
+            }
+            
+            .sticker {
+                font-size: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-bears" id="floating-container"></div>
+    
+    <div class="balloon balloon-1"></div>
+    <div class="balloon balloon-2"></div>
+    <div class="balloon balloon-3"></div>
+    <div class="balloon balloon-4"></div>
+    <div class="balloon balloon-5"></div>
+    <div class="balloon balloon-6"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>¡Feliz Cumpleaños!</h1>
+            
+        </div>
+        
+        <div class="image-container">
+            <img src="https://www.desayunossorpresabogota.co/media/catalog/product/cache/e42099f6fc21731ccc9219667607bb64/o/s/oso-de-peluche-chico.jpg" alt="Oso de peluche">
+            <button class="open-button">
+                <i class="fas fa-gift"></i> Abrir
+            </button>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+
+    <div class="birthday-card">
+        <div class="sticker sticker-1">🎀</div>
+        <div class="sticker sticker-2">🎉</div>
+        <div class="sticker sticker-3">🎁</div>
+        <div class="sticker sticker-4">✨</div>
+        
+        <div class="card-header">
+            <h1>¡Feliz Cumpleaños!</h1>
+            <h2>que este dia tan especial sea maravilloso para ti</h2>
+        </div>
+        
+        <div class="card-content">
+            <div class="doctora-image">
+                <img src="https://i.pinimg.com/236x/4f/61/ca/4f61caef0eb65e5c391d39d7402d15da.jpg" alt="Oso de peluche con globos">
+            </div>
+            <div class="message">
+                <p>Que en este día abunde la felicidad en tu vida. Gracias por cada risa, por estar ahí siempre y por ser mi mejor amiga. Te deseo un día lleno de alegría y diversión.</p>
+                <p>Eres una persona increíble y mereces todo lo mejor en este nuevo año de vida. Que todos tus sueños se hagan realidad 💙.</p>
+                <p>Con mucho cariño,<br>🧸</p>
+                <div class="signature">Daniel</div>
+            </div>
+        </div>
+        
+        <button class="close-button">
+            <i class="fas fa-times"></i> Cerrar
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const openButton = document.querySelector('.open-button');
+            const closeButton = document.querySelector('.close-button');
+            const birthdayCard = document.querySelector('.birthday-card');
+            const overlay = document.querySelector('.overlay');
+            const floatingContainer = document.getElementById('floating-container');
+            let confettiInterval;
+            
+            // Crear osos de peluche flotantes
+            function createFloatingBears() {
+                const bears = ['🧸', '🐻'];
+                
+                for (let i = 0; i < 15; i++) {
+                    const bear = document.createElement('div');
+                    bear.classList.add('floating-bear');
+                    bear.textContent = bears[Math.floor(Math.random() * bears.length)];
+                    bear.style.left = Math.random() * 100 + 'vw';
+                    bear.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                    bear.style.animationDelay = (Math.random() * 5) + 's';
+                    bear.style.fontSize = (Math.random() * 15 + 25) + 'px';
+                    floatingContainer.appendChild(bear);
+                }
+            }
+            
+            // Crear confeti (solo confeti, sin osos)
+            function createConfetti() {
+                const container = document.body;
+                const colors = ['#ff6b9d', '#5d9bff', '#ffd166', '#06d6a0', '#ff8fab', '#c77dff'];
+                
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = (Math.random() * 10 + 8) + 'px';
+                confetti.style.height = (Math.random() * 10 + 8) + 'px';
+                confetti.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                container.appendChild(confetti);
+                
+                // Eliminar el confeti después de que caiga
+                setTimeout(() => {
+                    if (confetti.parentNode) {
+                        confetti.remove();
+                    }
+                }, 6000);
+            }
+            
+            // Inicializar osos flotantes
+            createFloatingBears();
+            
+            // Pre-cargar animaciones para que no aparezcan "tiesas"
+            setTimeout(() => {
+                document.querySelectorAll('.balloon, .floating-bear').forEach(el => {
+                    el.style.animationPlayState = 'running';
+                });
+            }, 100);
+            
+            // Abrir la tarjeta
+            openButton.addEventListener('click', function() {
+                birthdayCard.classList.add('active');
+                overlay.classList.add('active');
+                
+                // Iniciar solo confeti (sin osos cayendo)
+                confettiInterval = setInterval(createConfetti, 80);
+            });
+            
+            // Cerrar la tarjeta
+            closeButton.addEventListener('click', function() {
+                birthdayCard.classList.remove('active');
+                overlay.classList.remove('active');
+                
+                // Detener confeti
+                clearInterval(confettiInterval);
+                
+                // Limpiar todo el confeti
+                const confetti = document.querySelectorAll('.confetti');
+                confetti.forEach(element => element.remove());
+            });
+            
+            // Cerrar al hacer clic en el overlay
+            overlay.addEventListener('click', function() {
+                birthdayCard.classList.remove('active');
+                overlay.classList.remove('active');
+                
+                // Detener confeti
+                clearInterval(confettiInterval);
+                
+                // Limpiar todo el confeti
+                const confetti = document.querySelectorAll('.confetti');
+                confetti.forEach(element => element.remove());
+            });
+        });
+    </script>
+</body>
+</html>
